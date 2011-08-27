@@ -1,0 +1,8 @@
+These two scripts allow Synology users to automatically repair and unpack NZB 
+downloads from DSM's Download Station.
+
+To run properly, you need to execute nzbau_jobchecker.sh AND nzbau_unpacker.sh.
+The second script will unpack the "raw downloads" detected by the first one.
+
+You can edit nzbau.conf to configure the scripts.
+

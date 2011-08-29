@@ -21,7 +21,12 @@ alias timestamp="date +[%Y-%m-%d\ %T]"
 
 # gets the list of directories where work was found
 lookforwork () {
-    find "$1"* -name *.[pP][aA][rR]2 , -name *.[rR][aA][rR] | sed 's/^\(.*\/\).*$/\1/' | uniq
+    find "$1" -type d | sed 1d | while read directory
+    do
+        if [ "$(find "$directory" -prune -print -name \*.[pP][aA][rR]2 -o -name \*.[rR][aA][rR])" ] ; then
+            echo "$directory/"
+        fi
+    done
 }
 
 
@@ -41,7 +46,7 @@ while [ true ] ; do
     do
         while read line; do
             if [ "$line" = "$newjob" ]; then
-                echo "$(timestamp) Job \"$newjob\" already in queue file"
+                #echo "$(timestamp) Job \"$newjob\" already in queue file"
                 # no need to look for this job in the queue file. Steps to the next job
                 continue 2
             fi

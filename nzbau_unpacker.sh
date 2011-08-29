@@ -65,7 +65,7 @@ linuxren () {
             cd "$1"
             # renames files
             echo "Executing \"$1$LINUXREN_GOOD\"..."
-            ./"$LINUXREN_GOOD"
+            sh "$LINUXREN_GOOD"
             # comes back to home
             cd "$scriptwd"
             return 0
@@ -86,7 +86,7 @@ linuxren () {
 #   etc.
 # only my_archive.rar.par2 will be returned
 mainpar2 () {
-    ls "$1" | grep -v '.vol[[:digit:]]*+[[:digit:]]*.par2$' | grep '.par2$'
+    ls "$1" | grep -v '.vol[[:digit:]]*+[[:digit:]]*.par2$' | grep '.par2$' | head -n 1
 }
 
 # checks which par2 file to scan
@@ -170,7 +170,7 @@ while [ true ] ; do
         # Step 2: checks the queue for work to be done
         pathtojob="$(nextjob)" >&2
         if [ $? -ne 0 ]; then
-            echo "$(timestamp) The file \"$QUEUE_FILE\" could not be found. Maybe the client is not running?" >&2
+            echo "$(timestamp) The file \"$QUEUE_FILE\" could not be found. Maybe the job checker is not running?" >&2
         fi
         
         # if the queue file is empty
@@ -206,12 +206,18 @@ while [ true ] ; do
         # Step 4: tries to repair
         echo "$(timestamp) Trying to repair files in \"$pathtojob\"..."
         repair "$pathtojob"
-        if [ $? -ne 0 ]; then
+        case $? in
+        255)
+            # prints a message and goes on
+            echo "$(timestamp) Could not find par2 files. Trying to unpack regardless repairing."
+            ;;
+        *)
             echo "$(timestamp) Unable to repair the files in \"$pathtojob\". Removing job \"$pathtojob\" from queue" >&2
             delcurjob
             waitforwork
             continue
-        fi
+            ;;
+        esac
         
         
         # Step 5: tries to unpack
@@ -224,6 +230,8 @@ while [ true ] ; do
             continue
         fi
         
+        
+        echo "$(timestamp) The files in \"$pathtojob\" have been successfully unpacked!"
         # at this point, everything went ok. We can delete the current job...
         delcurjob
         # ...then wait and process the next one

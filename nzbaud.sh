@@ -1,4 +1,8 @@
 #!/bin/sh
+# nzbau (NZB Auto Unpack/Unrar)
+# Author: Morgan Courbet
+
+
 
 INSTALL_PATH="./"
 UNPACKER="nzbau_unpacker"

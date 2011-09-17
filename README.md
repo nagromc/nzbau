@@ -20,11 +20,17 @@ for more details about using `ipkg` on your Synology.
 Usage
 =====
 
-To run properly, you need to execute `nzbau\_jobchecker.sh` **and** 
-`nzbau\_unpacker.sh`. The second script will unpack the "raw downloads" detected 
+You can edit `nzbau.conf` to configure the scripts.
+
+To run properly, you need to execute both `nzbau_jobchecker.sh` **and** 
+`nzbau_unpacker.sh`. The second script will unpack the "raw downloads" detected 
 by the first one.
 
-You can edit `nzbau.conf` to configure the scripts.
+It is possible to run the scripts when the system boots with the launch script 
+`S99nzbaud.sh`. Make sure the permissions of the launch script are set to 755 
+(`chmod 755 S99nzbaud.sh`) and put it in `/usr/local/etc/rc.d/`.
+Note that `nzbaud.sh` is prefixed with `S99` to indicate to the Synology system
+that this script must be executed last.
 
 
 Todo

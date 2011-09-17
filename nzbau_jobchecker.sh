@@ -1,17 +1,8 @@
 #!/bin/sh
+# nzbau (NZB Auto Unpack/Unrar)
 # Author: Morgan Courbet
-# 
-# nzbau (NZB Auto Unpacker)
-#
-# Description:
-# Allows Synology users to automatically repair and unpack NZB downloads from 
-# DSM's Download Station
-# 
-# This script needs the command "uptime" to be installed on your Synology. It
-# can be installed with the package "procps":
-#    "ipkg install procps"
-# Please see http://forum.synology.com/wiki/index.php/How_to_Install_Bootstrap
-# for more details about using ipkg on your Synology.
+
+
 
 # loads configuration file
 . ./nzbau.conf

@@ -111,7 +111,7 @@ unpack () {
     # archive_name.partxxx.rar fashion?
     partxxrar_file=`ls "$1" | grep "\.part[[:digit:]]\+\.rar$" | head -n 1`
     if [ -f "$1$partxxrar_file" ]; then
-        unrar x -o+ "$1$partxxrar_file" "$1"
+        unrar x -o+ "$1$partxxrar_file" "$BASE_DIR$UNPACKED_DIR`basename $1`/"
         if [ $? -ne 0 ]; then
             return $?
         else
@@ -123,7 +123,7 @@ unpack () {
         # archive_name.r00 archive_name.r01 ... archive_name.rar fashion?
         rar_file=`ls "$1" | grep -v "\.rename\.rar$" | grep "\.rar$"`
         if [ -f "$1$rar_file" ]; then
-            unrar x -o+ "$1$rar_file" "$1"
+            unrar x -o+ "$1$rar_file" "$BASE_DIR$UNPACKED_DIR`basename $1`/"
             if [ $? -ne 0 ]; then
                 return $?
             else

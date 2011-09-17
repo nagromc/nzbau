@@ -33,7 +33,7 @@ fi
 
 while [ true ] ; do
     # we will add each new job in the queue file
-    lookforwork "$DOWNLOAD_DIR" | while read newjob
+    lookforwork "$BASE_DIR$DOWNLOADED_DIR" | while read newjob
     do
         while read line; do
             if [ "$line" = "$newjob" ]; then

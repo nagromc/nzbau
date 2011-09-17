@@ -64,16 +64,8 @@ linuxren () {
 
 # gets the "main" par2 file from a folder
 # parameter 1: the path where to find the "main" par2 file
-# For example, if there are in the folder the files:
-#   my_archive.rar
-#   my_archive.rar.par2
-#   my_archive.rar.vol000+01.par2
-#   my_archive.rar.vol001+02.par2
-#   my_archive.rar.vol003+04.par2
-#   etc.
-# only my_archive.rar.par2 will be returned
 mainpar2 () {
-    ls "$1" | grep -v '.vol[[:digit:]]*+[[:digit:]]*.par2$' | grep '.par2$' | head -n 1
+    ls "$1"*.[pP][aA][rR]2 | head -n 1
 }
 
 # checks which par2 file to scan
@@ -86,9 +78,9 @@ repair () {
     # gets the main par2 file
     par2file="$(mainpar2 "$1")"
     # if the main par2 file exists
-    if [ -f "$1$par2file" ]; then
+    if [ -f "$par2file" ]; then
         # verifies and, if necessary, repairs the files
-        par2 repair "$1$par2file"
+        par2 repair "$par2file"
         if [ $? -ne 0 ]; then
             return $?
         else

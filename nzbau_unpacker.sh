@@ -185,18 +185,20 @@ while [ true ] ; do
         # Step 4: tries to repair
         echo "$(timestamp) Trying to repair files in \"$pathtojob\"..."
         repair "$pathtojob"
-        case $? in
-        255)
-            # prints a message and goes on
-            echo "$(timestamp) Could not find par2 files. Trying to unpack regardless repairing."
-            ;;
-        *)
-            echo "$(timestamp) Unable to repair the files in \"$pathtojob\". Removing job \"$pathtojob\" from queue" >&2
-            delcurjob
-            waitforwork
-            continue
-            ;;
-        esac
+        if [ $? -ne 0 ]; then
+            case $? in
+            255)
+                # prints a message and goes on
+                echo "$(timestamp) Could not find par2 files. Trying to unpack regardless repairing."
+                ;;
+            *)
+                echo "$(timestamp) Unable to repair the files in \"$pathtojob\". Removing job \"$pathtojob\" from queue" >&2
+                delcurjob
+                waitforwork
+                continue
+                ;;
+            esac
+        fi
         
         
         # Step 5: tries to unpack
